@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дипломная работа — Максим Рац · HTML в космосе</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: #05010f;
+    color: #e6e9ff;
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  /* ===== ЗВЁЗДНОЕ НЕБО ===== */
+  .stars, .stars2, .stars3 {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-repeat: repeat;
+  }
+
+  .stars {
+    background-image:
+      radial-gradient(1.5px 1.5px at 20px 30px, #fff, transparent),
+      radial-gradient(1px 1px at 40px 70px, #cfe3ff, transparent),
+      radial-gradient(1.5px 1.5px at 130px 40px, #fff, transparent),
+      radial-gradient(1px 1px at 90px 110px, #b9c9ff, transparent),
+      radial-gradient(2px 2px at 160px 160px, #fff, transparent);
+    background-size: 200px 200px;
+    animation: drift 200s linear infinite;
+    opacity: 0.9;
+  }
+
+  .stars2 {
+    background-image:
+      radial-gradient(1px 1px at 50px 50px, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 150px 90px, #a8c1ff, transparent),
+      radial-gradient(1px 1px at 220px 180px, #fff, transparent);
+    background-size: 300px 300px;
+    animation: drift 320s linear infinite reverse;
+    opacity: 0.7;
+  }
+
+  .stars3 {
+    background-image:
+      radial-gradient(1px 1px at 100px 150px, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 250px 250px, #dcd0ff, transparent);
+    background-size: 400px 400px;
+    animation: drift 500s linear infinite;
+    opacity: 0.5;
+  }
+
+  @keyframes drift {
+    from { background-position: 0 0; }
+    to { background-position: 1000px 2000px; }
+  }
+
+  /* ===== ПАРАЛЛАКС ТУМАННОСТЬ ===== */
+  .nebula {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.55;
+  }
+  .nebula-1 {
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, #6a2cff 0%, transparent 70%);
+    top: -200px; left: -200px;
+    animation: float 25s ease-in-out infinite;
+  }
+  .nebula-2 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, #ff2c9c 0%, transparent 70%);
+    bottom: -150px; right: -150px;
+    animation: float 30s ease-in-out infinite reverse;
+  }
+  .nebula-3 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, #00d4ff 0%, transparent 70%);
+    top: 40%; left: 50%;
+    animation: float 20s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0,0); }
+    50% { transform: translate(40px, -40px); }
+  }
+
+  /* ===== ПЛАНЕТЫ ===== */
+  .planet {
+    position: fixed;
+    border-radius: 50%;
+    z-index: 2;
+    pointer-events: none;
+    box-shadow: inset -20px -20px 60px rgba(0,0,0,0.6),
+                0 0 80px rgba(140,120,255,0.5);
+  }
+  .planet-1 {
+    width: 180px; height: 180px;
+    background: radial-gradient(circle at 30% 30%, #b98cff, #3a1f7a 60%, #1a0f3d);
+    top: 20%; right: 8%;
+    animation: float 15s ease-in-out infinite;
+  }
+  .planet-2 {
+    width: 90px; height: 90px;
+    background: radial-gradient(circle at 30% 30%, #ff8ad8, #7a1f6a 60%, #2e0f2b);
+    top: 65%; left: 6%;
+    animation: float 18s ease-in-out infinite reverse;
+  }
+
+  /* ===== ГЕРОЙ ===== */
+  .hero {
+    position: relative;
+    z-index: 3;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #8ad6ff, #b98cff, #ff8ad8, #8ad6ff);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shine 6s linear infinite;
+    text-shadow: 0 0 40px rgba(140,120,255,0.4);
+  }
+
+  @keyframes shine {
+    to { background-position: 300% 0; }
+  }
+
+  .hero p {
+    margin-top: 20px;
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    color: #b8c0e8;
+    max-width: 700px;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.4s ease forwards;
+  }
+
+  .hero .badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border: 1px solid rgba(140,120,255,0.6);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #b98cff;
+    margin-bottom: 25px;
+    background: rgba(140,120,255,0.08);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    animation: fadeUp 1s 0.2s ease forwards;
+  }
+
+  .hero .author {
+    margin-top: 28px;
+    font-size: 1rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #8ad6ff;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.6s ease forwards;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .hero .author::before,
+  .hero .author::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8ad6ff, transparent);
+  }
+
+  .hero .author span {
+    font-weight: 600;
+    background: linear-gradient(90deg, #8ad6ff, #b98cff, #ff8ad8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 30px rgba(185,140,255,0.5);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #8ad6ff;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    opacity: 0.7;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translate(-50%, 0); opacity: 0.4; }
+    50% { transform: translate(-50%, 10px); opacity: 1; }
+  }
+
+  /* ===== КОНТЕНТ ===== */
+  .content {
+    position: relative;
+    z-index: 4;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 80px 24px 120px;
+  }
+
+  .section {
+    background: rgba(15, 12, 40, 0.55);
+    border: 1px solid rgba(140,120,255,0.25);
+    border-radius: 24px;
+    padding: 40px 44px;
+    margin-bottom: 50px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 0 60px rgba(140,120,255,0.05);
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section h2 {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #8ad6ff, #b98cff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .section h2 .num {
+    font-size: 0.9rem;
+    padding: 4px 12px;
+    border-radius: 30px;
+    background: rgba(140,120,255,0.15);
+    border: 1px solid rgba(140,120,255,0.4);
+    color: #b98cff;
+    font-weight: 500;
+    letter-spacing: 1px;
+    -webkit-text-fill-color: #b98cff;
+  }
+
+  .section p {
+    color: #d3d8f5;
+    font-size: 1.05rem;
+    margin-bottom: 14px;
+  }
+
+  .section p + p { margin-top: 8px; }
+
+  /* ===== СПИСКИ ТЕГОВ ===== */
+  .tags-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    margin-top: 22px;
+  }
+
+  .tag-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(140,120,255,0.2);
+    border-radius: 12px;
+    transition: all 0.35s ease;
+    cursor: default;
+  }
+
+  .tag-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,138,216,0.7);
+    background: rgba(140,120,255,0.12);
+    box-shadow: 0 10px 30px rgba(140,120,255,0.25);
+  }
+
+  .tag-card code {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.95rem;
+    color: #8ad6ff;
+    background: rgba(138,214,255,0.08);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(138,214,255,0.2);
+    white-space: nowrap;
+  }
+
+  .tag-card span {
+    font-size: 0.88rem;
+    color: #b8c0e8;
+    line-height: 1.4;
+  }
+
+  /* ===== ГАЛЕРЕЯ ===== */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+    margin-top: 26px;
+  }
+
+  .gallery-item {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: linear-gradient(135deg, rgba(140,120,255,0.15), rgba(0,212,255,0.08));
+    border: 1px solid rgba(140,120,255,0.3);
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    cursor: pointer;
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: rgba(255,138,216,0.7);
+    box-shadow: 0 20px 50px rgba(140,120,255,0.35);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.08);
+  }
+
+  /* Плейсхолдер, если картинки нет */
+  .gallery-item .placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #8ad6ff;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .gallery-item .placeholder .icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    border: 2px dashed rgba(138,214,255,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Consolas', monospace;
+    font-size: 1.2rem;
+    color: #b98cff;
+    text-shadow: 0 0 20px rgba(185,140,255,0.6);
+    background: rgba(138,214,255,0.05);
+  }
+
+  .gallery-item .placeholder small {
+    color: #6b74a3;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+  }
+
+  .gallery-item .caption {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 14px 16px;
+    background: linear-gradient(0deg, rgba(5,1,15,0.95), transparent);
+    color: #e6e9ff;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    pointer-events: none;
+  }
+
+  /* ===== ФУТЕР ===== */
+  footer {
+    position: relative;
+    z-index: 4;
+    text-align: center;
+    padding: 40px 20px 60px;
+    color: #6b74a3;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+
+  footer .glow {
+    color: #b98cff;
+    text-shadow: 0 0 20px rgba(185,140,255,0.6);
+  }
+
+  footer .author-name {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, #8ad6ff, #b98cff, #ff8ad8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  @media (max-width: 640px) {
+    .section { padding: 28px 22px; border-radius: 18px; }
+    .planet-1 { width: 110px; height: 110px; }
+    .planet-2 { width: 60px; height: 60px; }
+    .nebula-1, .nebula-2, .nebula-3 { filter: blur(80px); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ФОН -->
+<div class="stars"></div>
+<div class="stars2"></div>
+<div class="stars3"></div>
+<div class="nebula nebula-1" data-speed="0.15"></div>
+<div class="nebula nebula-2" data-speed="0.25"></div>
+<div class="nebula nebula-3" data-speed="0.1"></div>
+<div class="planet planet-1" data-speed="0.4"></div>
+<div class="planet planet-2" data-speed="0.55"></div>
+
+<!-- ГЕРОЙ -->
+<header class="hero">
+  <div class="badge">Дипломная работа · 2026</div>
+  <h1>HTML в космосе</h1>
+  <p>Путешествие по языку гипертекстовой разметки — от базовых тегов до семантики современного веба</p>
+  <div class="author">Автор · <span>Максим Рац</span></div>
+  <div class="scroll-hint">SCROLL ↓</div>
+</header>
+
+<!-- КОНТЕНТ -->
+<main class="content">
+
+  <section class="section">
+    <h2><span class="num">01</span> Введение</h2>
+    <p>За этот год я изучил HTML.</p>
+    <p><strong>HTML</strong> (от англ. <em>HyperText Markup Language</em> — «язык гипертекстовой разметки») — это базовый язык разметки для создания веб‑страниц. С его помощью задают структуру контента: заголовки, абзацы, списки, изображения, ссылки и т. д.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="num">02</span> Парные теги</h2>
+    <p>Парные теги имеют закрывающий тег — слэш перед именем в угловых скобках.</p>
+
+    <div class="tags-grid">
+      <div class="tag-card"><code>&lt;html&gt;</code><span>корневой элемент страницы</span></div>
+      <div class="tag-card"><code>&lt;head&gt;</code><span>служебная часть (метаданные, стили, скрипты)</span></div>
+      <div class="tag-card"><code>&lt;body&gt;</code><span>видимое содержимое страницы</span></div>
+      <div class="tag-card"><code>&lt;p&gt;</code><span>абзац текста</span></div>
+      <div class="tag-card"><code>&lt;h1&gt;–&lt;h6&gt;</code><span>заголовки разного уровня</span></div>
+      <div class="tag-card"><code>&lt;a&gt;</code><span>ссылка</span></div>
+      <div class="tag-card"><code>&lt;div&gt;</code><span>универсальный блок для группировки элементов</span></div>
+      <div class="tag-card"><code>&lt;span&gt;</code><span>строчный элемент, чтобы выделить часть текста</span></div>
+      <div class="tag-card"><code>&lt;ul&gt; + &lt;li&gt;</code><span>маркированный список и его пункты</span></div>
+      <div class="tag-card"><code>&lt;ol&gt; + &lt;li&gt;</code><span>нумерованный список и его пункты</span></div>
+      <div class="tag-card"><code>&lt;table&gt;, &lt;tr&gt;, &lt;td&gt;, &lt;th&gt;</code><span>таблица, строка, ячейка данных, ячейка заголовка</span></div>
+      <div class="tag-card"><code>&lt;form&gt;</code><span>форма</span></div>
+      <div class="tag-card"><code>&lt;label&gt;</code><span>метка для поля ввода</span></div>
+      <div class="tag-card"><code>&lt;article&gt;, &lt;section&gt;, &lt;nav&gt;, &lt;header&gt;, &lt;footer&gt;, &lt;main&gt;, &lt;aside&gt;</code><span>семантические блоки (смысловые разделы)</span></div>
+      <div class="tag-card"><code>&lt;blockquote&gt;</code><span>большая цитата</span></div>
+      <div class="tag-card"><code>&lt;details&gt; + &lt;summary&gt;</code><span>свёрнутый блок с заголовком</span></div>
+      <div class="tag-card"><code>&lt;strong&gt;</code><span>важное выделение (обычно жирным)</span></div>
+      <div class="tag-card"><code>&lt;em&gt;</code><span>акцент (обычно курсивом)</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2><span class="num">03</span> Одиночные теги</h2>
+    <p>Одиночные теги не должны закрываться — у них нет содержимого между открывающей и закрывающей частью.</p>
+
+    <div class="tags-grid">
+      <div class="tag-card"><code>&lt;br&gt;</code><span>перенос строки</span></div>
+      <div class="tag-card"><code>&lt;hr&gt;</code><span>горизонтальная линия (тематический разделитель)</span></div>
+      <div class="tag-card"><code>&lt;img&gt;</code><span>изображение</span></div>
+      <div class="tag-card"><code>&lt;input&gt;</code><span>поле ввода в форме</span></div>
+      <div class="tag-card"><code>&lt;meta&gt;</code><span>метаданные (пишут в &lt;head&gt;)</span></div>
+      <div class="tag-card"><code>&lt;link&gt;</code><span>подключение внешних ресурсов (например, стилей)</span></div>
+      <div class="tag-card"><code>&lt;area&gt;</code><span>область в карте-изображении</span></div>
+      <div class="tag-card"><code>&lt;embed&gt;</code><span>встраивание внешнего контента</span></div>
+      <div class="tag-card"><code>&lt;param&gt;</code><span>параметр для тега &lt;object&gt;</span></div>
+      <div class="tag-card"><code>&lt;source&gt;</code><span>источник медиа для &lt;video&gt; или &lt;audio&gt;</span></div>
+      <div class="tag-card"><code>&lt;track&gt;</code><span>дорожка субтитров для видео/аудио</span></div>
+      <div class="tag-card"><code>&lt;wbr&gt;</code><span>возможное место переноса слова</span></div>
+    </div>
+  </section>
+
+  <!-- ГАЛЕРЕЯ -->
+  <section class="section">
+    <h2><span class="num">04</span> Галерея</h2>
+    <p>Наглядные примеры по HTML — структура страницы, теги и их визуальное представление.</p>
+
+    <div class="gallery">
+      <!-- Замените src на свои картинки. Например: <img src="images/структура.png" alt="Структура HTML"> -->
+      <figure class="gallery-item">
+        <div class="placeholder">
+          <div class="icon">&lt;/&gt;</div>
+          <div>Структура HTML-документа</div>
+          <small>замените src</small>
+        </div>
+        <figcaption class="caption">Структура HTML-документа</figcaption>
+      </figure>
+
+      <figure class="gallery-item">
+        <div class="placeholder">
+          <div class="icon">&lt;/&gt;</div>
+          <div>Парные теги</div>
+          <small>замените src</small>
+        </div>
+        <figcaption class="caption">Парные теги</figcaption>
+      </figure>
+
+      <figure class="gallery-item">
+        <div class="placeholder">
+          <div class="icon">&lt;/&gt;</div>
+          <div>Одиночные теги</div>
+          <small>замените src</small>
+        </div>
+        <figcaption class="caption">Одиночные теги</figcaption>
+      </figure>
+
+      <figure class="gallery-item">
+        <div class="placeholder">
+          <div class="icon">&lt;/&gt;</div>
+          <div>Семантические блоки</div>
+          <small>замените src</small>
+        </div>
+        <figcaption class="caption">Семантические блоки</figcaption>
+      </figure>
+
+      <figure class="gallery-item">
+        <div class="placeholder">
+          <div class="icon">&lt;/&gt;</div>
+          <div>Формы и поля ввода</div>
+          <small>замените src</small>
+        </div>
+        <figcaption class="caption">Формы и поля ввода</figcaption>
+      </figure>
+
+      <figure class="gallery-item">
+        <div class="placeholder">
+          <div class="icon">&lt;/&gt;</div>
+          <div>CSS-оформление</div>
+          <small>замените src</small>
+        </div>
+        <figcaption class="caption">CSS-оформление</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2><span class="num">05</span> Оформление и возможности</h2>
+    <p>Также можно делать красивое оформление сайта с помощью <strong>CSS</strong>, добавлять изображения через <code style="color:#8ad6ff">&lt;img&gt;</code>, вставлять ссылки на другие страницы сайта через атрибут <code style="color:#8ad6ff">href</code> у тега <code style="color:#8ad6ff">&lt;a&gt;</code> — адрес ссылки.</p>
+    <p>Можно подключать <strong>Bootstrap</strong>, настраивать отступы. Эта совокупность тегов и возможностей позволяет делать красивое оформление текста, строить списки и многое другое.</p>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 · Дипломная работа · <span class="glow">HTML в космосе</span>
+  <div class="author-name">Максим Рац</div>
+</footer>
+
+<script>
+  // Параллакс для планет и туманностей
+  const parallaxItems = document.querySelectorAll('[data-speed]');
+
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    parallaxItems.forEach(el => {
+      const speed = parseFloat(el.dataset.speed);
+      el.style.transform = `translateY(${y * speed}px)`;
+    });
+  });
+
+  // Плавное появление секций
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
